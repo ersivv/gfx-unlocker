@@ -54,12 +54,12 @@
 #define RESULT_DELAY_MS 1200
 
 struct unlocker_points_t {
-	coord_t x;
-	coord_t y;
-	int checked;
-	int has_prev;
-	coord_t prev_x;
-	coord_t prev_y;
+  coord_t x;
+  coord_t y;
+  int checked;
+  int has_prev;
+  coord_t prev_x;
+  coord_t prev_y;
 };
 
 void displayUnlockerSetup(uint8_t* secret_sequence);
