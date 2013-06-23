@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Mateusz Tomaszkiewicz
+ * Copyright (c) 2013, Mateusz Tomaszkiewicz <silentdemon@gmail.com>
  *
  * All rights reserved.
  *

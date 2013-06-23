@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Mateusz Tomaszkiewicz
+ * Copyright (c) 2013, Mateusz Tomaszkiewicz <silentdemon@gmail.com>
  *
  * All rights reserved.
  *
@@ -46,8 +46,8 @@
 #define RING_OUTER_ERR_COLOR Red
 #define RING_INNER_ERR_COLOR Red
 
-#define RING_OUTER_OK_COLOR  Green
-#define RING_INNER_OK_COLOR  Green
+#define RING_OUTER_OK_COLOR  Lime
+#define RING_INNER_OK_COLOR  Lime
 
 #define LINE_COLOR           Black
 

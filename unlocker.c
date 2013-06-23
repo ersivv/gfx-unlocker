@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Mateusz Tomaszkiewicz
+ * Copyright (c) 2013, Mateusz Tomaszkiewicz <silentdemon@gmail.com>
  *
  * All rights reserved.
  *
@@ -43,7 +43,7 @@ inline void drawRing(coord_t x, coord_t y)
 	gdispFillCircle(x, y,                     3, RING_INNER_COLOR);
 }
 
-inline void drawHLRing(coord_t x, coord_t y)
+inline void drawRingHL(coord_t x, coord_t y)
 {
 	gdispFillCircle(x, y, RING_DIAMETER / 2,     RING_OUTER_HL_COLOR);
 	gdispFillCircle(x, y, RING_DIAMETER / 2 - 3, BACKGROUND_COLOR);
@@ -216,7 +216,7 @@ void unlocker(uint8_t* secret_sequence)
 				{
 					unlocker_points[i][j].checked = 1;
 
-					drawHLRing(unlocker_points[i][j].x, unlocker_points[i][j].y);
+					drawRingHL(unlocker_points[i][j].x, unlocker_points[i][j].y);
 
 					if (last_x != 0 && last_y != 0) {
 						unlocker_points[i][j].prev_x = last_x;
