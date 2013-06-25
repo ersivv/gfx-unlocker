@@ -49,7 +49,7 @@
 #define RING_OUTER_OK_COLOR  Lime
 #define RING_INNER_OK_COLOR  Lime
 
-#define LINE_COLOR           Black
+#define LINE_COLOR           Gray
 
 #define RESULT_DELAY_MS 1200
 

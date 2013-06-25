@@ -74,10 +74,31 @@ void redrawLines(void)
         && unlocker_points[i][j].prev_x
         && unlocker_points[i][j].prev_y)
       {
-        gdispDrawLine(
-          unlocker_points[i][j].prev_x, unlocker_points[i][j].prev_y,
-          unlocker_points[i][j].x, unlocker_points[i][j].y,
-          LINE_COLOR);
+          gdispDrawLine(
+            unlocker_points[i][j].prev_x, unlocker_points[i][j].prev_y,
+            unlocker_points[i][j].x, unlocker_points[i][j].y,
+            LINE_COLOR);
+          if (unlocker_points[i][j].prev_x == unlocker_points[i][j].x) {
+              gdispDrawLine(
+                unlocker_points[i][j].prev_x - 1, unlocker_points[i][j].prev_y,
+                unlocker_points[i][j].x - 1, unlocker_points[i][j].y,
+                LINE_COLOR);
+              gdispDrawLine(
+                unlocker_points[i][j].prev_x + 1, unlocker_points[i][j].prev_y,
+                unlocker_points[i][j].x + 1, unlocker_points[i][j].y,
+                LINE_COLOR);
+          } else {
+            gdispDrawLine(
+              unlocker_points[i][j].prev_x, unlocker_points[i][j].prev_y - 1,
+              unlocker_points[i][j].x, unlocker_points[i][j].y - 1,
+              LINE_COLOR);
+            gdispDrawLine(
+              unlocker_points[i][j].prev_x, unlocker_points[i][j].prev_y + 1,
+              unlocker_points[i][j].x, unlocker_points[i][j].y + 1,
+              LINE_COLOR);
+          }
+          gdispFillCircle(unlocker_points[i][j].x, unlocker_points[i][j].y,           3, LINE_COLOR);
+          gdispFillCircle(unlocker_points[i][j].prev_x, unlocker_points[i][j].prev_y, 3, LINE_COLOR);
       }
       j++;
     }
