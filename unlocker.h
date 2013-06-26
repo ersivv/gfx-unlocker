@@ -53,7 +53,7 @@
 
 #define RESULT_DELAY_MS 1200
 
-struct unlocker_points_t {
+struct unlocker_rings_t {
   coord_t x;
   coord_t y;
   int checked;

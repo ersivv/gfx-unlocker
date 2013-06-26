@@ -33,7 +33,7 @@
 #include "unlocker.h"
 
 GEventMouse ev;
-struct unlocker_points_t unlocker_points[UNLOCKER_COLS][UNLOCKER_ROWS];
+struct unlocker_rings_t unlocker_rings[UNLOCKER_COLS][UNLOCKER_ROWS];
 uint8_t unlock_sequence[UNLOCKER_COLS * UNLOCKER_ROWS];
 
 inline void drawRing(coord_t x, coord_t y)
@@ -70,35 +70,35 @@ void redrawLines(void)
   while (i < UNLOCKER_COLS) {
     j = 0;
     while (j < UNLOCKER_ROWS) {
-      if (unlocker_points[i][j].has_prev
-        && unlocker_points[i][j].prev_x
-        && unlocker_points[i][j].prev_y)
+      if (unlocker_rings[i][j].has_prev
+        && unlocker_rings[i][j].prev_x
+        && unlocker_rings[i][j].prev_y)
       {
           gdispDrawLine(
-            unlocker_points[i][j].prev_x, unlocker_points[i][j].prev_y,
-            unlocker_points[i][j].x, unlocker_points[i][j].y,
+            unlocker_rings[i][j].prev_x, unlocker_rings[i][j].prev_y,
+            unlocker_rings[i][j].x, unlocker_rings[i][j].y,
             LINE_COLOR);
-          if (unlocker_points[i][j].prev_x == unlocker_points[i][j].x) {
+          if (unlocker_rings[i][j].prev_x == unlocker_rings[i][j].x) {
               gdispDrawLine(
-                unlocker_points[i][j].prev_x - 1, unlocker_points[i][j].prev_y,
-                unlocker_points[i][j].x - 1, unlocker_points[i][j].y,
+                unlocker_rings[i][j].prev_x - 1, unlocker_rings[i][j].prev_y,
+                unlocker_rings[i][j].x - 1, unlocker_rings[i][j].y,
                 LINE_COLOR);
               gdispDrawLine(
-                unlocker_points[i][j].prev_x + 1, unlocker_points[i][j].prev_y,
-                unlocker_points[i][j].x + 1, unlocker_points[i][j].y,
+                unlocker_rings[i][j].prev_x + 1, unlocker_rings[i][j].prev_y,
+                unlocker_rings[i][j].x + 1, unlocker_rings[i][j].y,
                 LINE_COLOR);
           } else {
             gdispDrawLine(
-              unlocker_points[i][j].prev_x, unlocker_points[i][j].prev_y - 1,
-              unlocker_points[i][j].x, unlocker_points[i][j].y - 1,
+              unlocker_rings[i][j].prev_x, unlocker_rings[i][j].prev_y - 1,
+              unlocker_rings[i][j].x, unlocker_rings[i][j].y - 1,
               LINE_COLOR);
             gdispDrawLine(
-              unlocker_points[i][j].prev_x, unlocker_points[i][j].prev_y + 1,
-              unlocker_points[i][j].x, unlocker_points[i][j].y + 1,
+              unlocker_rings[i][j].prev_x, unlocker_rings[i][j].prev_y + 1,
+              unlocker_rings[i][j].x, unlocker_rings[i][j].y + 1,
               LINE_COLOR);
           }
-          gdispFillCircle(unlocker_points[i][j].x, unlocker_points[i][j].y,           3, LINE_COLOR);
-          gdispFillCircle(unlocker_points[i][j].prev_x, unlocker_points[i][j].prev_y, 3, LINE_COLOR);
+          gdispFillCircle(unlocker_rings[i][j].x, unlocker_rings[i][j].y,           3, LINE_COLOR);
+          gdispFillCircle(unlocker_rings[i][j].prev_x, unlocker_rings[i][j].prev_y, 3, LINE_COLOR);
       }
       j++;
     }
@@ -115,7 +115,7 @@ void drawRingsError(void)
   while (i < UNLOCKER_COLS) {
     j = 0;
     while (j < UNLOCKER_ROWS) {
-      drawRingError(unlocker_points[i][j].x, unlocker_points[i][j].y);
+      drawRingError(unlocker_rings[i][j].x, unlocker_rings[i][j].y);
       j++;
     }
     i++;
@@ -131,7 +131,7 @@ void drawRingsOk(void)
   while (i < UNLOCKER_COLS) {
     j = 0;
     while (j < UNLOCKER_ROWS) {
-      drawRingOk(unlocker_points[i][j].x, unlocker_points[i][j].y);
+      drawRingOk(unlocker_rings[i][j].x, unlocker_rings[i][j].y);
       j++;
     }
     i++;
@@ -163,14 +163,14 @@ void resetRings(void)
   while (i < UNLOCKER_COLS) {
     j = 0;
     while (j < UNLOCKER_ROWS) {
-      unlocker_points[i][j].x = start_x + delta * i;
-      unlocker_points[i][j].y = start_y + delta * j;
-      unlocker_points[i][j].checked = 0;
-      unlocker_points[i][j].has_prev = 0;
-      unlocker_points[i][j].prev_x = 0;
-      unlocker_points[i][j].prev_y = 0;
+      unlocker_rings[i][j].x = start_x + delta * i;
+      unlocker_rings[i][j].y = start_y + delta * j;
+      unlocker_rings[i][j].checked = 0;
+      unlocker_rings[i][j].has_prev = 0;
+      unlocker_rings[i][j].prev_x = 0;
+      unlocker_rings[i][j].prev_y = 0;
 
-      drawRing(unlocker_points[i][j].x, unlocker_points[i][j].y);
+      drawRing(unlocker_rings[i][j].x, unlocker_rings[i][j].y);
 
       unlock_sequence[i + j * UNLOCKER_COLS] = 0;
 
@@ -229,24 +229,24 @@ void unlocker(uint8_t* secret_sequence)
     while (i < UNLOCKER_COLS) {
       j = 0;
       while (j < UNLOCKER_ROWS) {
-        if (unlocker_points[i][j].checked == 0
-          && unlocker_points[i][j].x - RING_ACTIVE_AREA/2 < ev.x
-          && unlocker_points[i][j].x + RING_ACTIVE_AREA/2 > ev.x
-          && unlocker_points[i][j].y - RING_ACTIVE_AREA/2 < ev.y
-          && unlocker_points[i][j].y + RING_ACTIVE_AREA/2 > ev.y)
+        if (unlocker_rings[i][j].checked == 0
+          && unlocker_rings[i][j].x - RING_ACTIVE_AREA/2 < ev.x
+          && unlocker_rings[i][j].x + RING_ACTIVE_AREA/2 > ev.x
+          && unlocker_rings[i][j].y - RING_ACTIVE_AREA/2 < ev.y
+          && unlocker_rings[i][j].y + RING_ACTIVE_AREA/2 > ev.y)
         {
-          unlocker_points[i][j].checked = 1;
+          unlocker_rings[i][j].checked = 1;
 
-          drawRingHL(unlocker_points[i][j].x, unlocker_points[i][j].y);
+          drawRingHL(unlocker_rings[i][j].x, unlocker_rings[i][j].y);
 
           if (last_x != 0 && last_y != 0) {
-            unlocker_points[i][j].prev_x = last_x;
-            unlocker_points[i][j].prev_y = last_y;
-            unlocker_points[i][j].has_prev = last_i + last_j * UNLOCKER_ROWS + 1;
+            unlocker_rings[i][j].prev_x = last_x;
+            unlocker_rings[i][j].prev_y = last_y;
+            unlocker_rings[i][j].has_prev = last_i + last_j * UNLOCKER_ROWS + 1;
             redrawLines();
           }
-          last_x = unlocker_points[i][j].x;
-          last_y = unlocker_points[i][j].y;
+          last_x = unlocker_rings[i][j].x;
+          last_y = unlocker_rings[i][j].y;
           last_i = i;
           last_j = j;
 
