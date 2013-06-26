@@ -29,13 +29,13 @@
 #ifndef _UNLOCKER_H_
 #define _UNLOCKER_H_
 
-#define UNLOCKER_ROWS 3
 #define UNLOCKER_COLS 3
+#define UNLOCKER_ROWS 3
 
 #define BACKGROUND_COLOR     White
 
 #define RING_DIAMETER        40
-#define RING_ACTIVE_AREA     30
+#define RING_ACTIVE_AREA     26
 
 #define RING_OUTER_COLOR     Black
 #define RING_INNER_COLOR     Black

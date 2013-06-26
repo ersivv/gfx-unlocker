@@ -33,8 +33,8 @@
 #include "unlocker.h"
 
 GEventMouse ev;
-struct unlocker_points_t unlocker_points[UNLOCKER_ROWS][UNLOCKER_COLS];
-uint8_t unlock_sequence[UNLOCKER_ROWS * UNLOCKER_COLS];
+struct unlocker_points_t unlocker_points[UNLOCKER_COLS][UNLOCKER_ROWS];
+uint8_t unlock_sequence[UNLOCKER_COLS * UNLOCKER_ROWS];
 
 inline void drawRing(coord_t x, coord_t y)
 {
