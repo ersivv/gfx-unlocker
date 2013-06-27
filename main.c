@@ -32,18 +32,36 @@
 
 #include "unlocker.h"
 
+static WORKING_AREA(waThread1, 128);
+static msg_t Thread1(void *arg) {
+  uint8_t s = 0;
+  coord_t center_x = gdispGetWidth() / 2;
+  coord_t center_y = gdispGetHeight() / 2;
+
+  while (TRUE) {
+    if (s == 0) {
+      gdispFillArea(center_x - 10, center_y - 10, 20, 20, Red);
+      s = 1;
+    } else {
+      gdispFillArea(center_x - 10, center_y - 10, 20, 20, Green);
+      s = 0;
+    }
+    chThdSleepMilliseconds(500);
+  }
+}
+
 int main(void)
 {
   /*
    * This app is meant to be run in ChibiOS/RT in hardware, however unlocker
-   * alone should also work in ChibiOS/RT simulator.
+   * alone also works in ChibiOS/RT simulator.
    */
   halInit();
   chSysInit();
 
   gfxInit();
 
-  /* Touch sensor calibration if needed.*/
+  /* Initialize mouse and calibrate it if needed.*/
   ginputGetMouse(0);
 
   gdispSetOrientation(GDISP_ROTATE_90);
@@ -55,22 +73,14 @@ int main(void)
    * predefined in code or loaded from some kind of external memory.
    * Following sequence of calls is just an example.
    */
-  uint8_t secret_sequence[UNLOCKER_COLS * UNLOCKER_ROWS];
+  uint8_t secret_sequence[UNLOCKER_COLS * UNLOCKER_ROWS] = {1,4,8,6,2,5,7,0,0};
   displayUnlockerSetup(&secret_sequence[0]);
 
   /*
    * Unlocker exits only if user draws proper pattern.
    * This should be run before anything else happens.
+   * Consider use of chSysLock() before and chSysUnlock() after.
    */
-  secret_sequence[0] = 1;
-  secret_sequence[1] = 4;
-  secret_sequence[2] = 8;
-  secret_sequence[3] = 6;
-  secret_sequence[4] = 2;
-  secret_sequence[5] = 5;
-  secret_sequence[6] = 7;
-  secret_sequence[7] = 0;
-  secret_sequence[8] = 0;
   displayUnlocker(&secret_sequence[0]);
 
   /* Continue with normal work.*/
@@ -79,6 +89,9 @@ int main(void)
   font = gdispOpenFont("UI2");
   gdispDrawString(30, 30, "Ready to go!", font, White);
   gdispCloseFont(font);
+
+  chThdCreateStatic(waThread1, sizeof(waThread1),
+                    NORMALPRIO, Thread1, NULL);
 
   while (TRUE) {
     chThdSleepMilliseconds(500);
