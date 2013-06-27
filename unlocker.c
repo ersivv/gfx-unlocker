@@ -65,8 +65,8 @@ inline void drawRingOk(coord_t x, coord_t y)
 
 void redrawLines(void)
 {
-  int i = 0;
-  int j = 0;
+  uint8_t i, j;
+  i = 0;
   while (i < UNLOCKER_COLS) {
     j = 0;
     while (j < UNLOCKER_ROWS) {
@@ -110,8 +110,8 @@ void drawRingsError(void)
 {
   gdispClear(BACKGROUND_COLOR);
 
-  int i = 0;
-  int j = 0;
+  uint8_t i, j;
+  i = 0;
   while (i < UNLOCKER_COLS) {
     j = 0;
     while (j < UNLOCKER_ROWS) {
@@ -126,8 +126,8 @@ void drawRingsOk(void)
 {
   gdispClear(BACKGROUND_COLOR);
 
-  int i = 0;
-  int j = 0;
+  uint8_t i, j;
+  i = 0;
   while (i < UNLOCKER_COLS) {
     j = 0;
     while (j < UNLOCKER_ROWS) {
@@ -158,8 +158,8 @@ void resetRings(void)
     start_y = (height - (delta * (UNLOCKER_ROWS - 1))) / 2;
   }
 
-  int i = 0;
-  int j = 0;
+  uint8_t i, j;
+  i = 0;
   while (i < UNLOCKER_COLS) {
     j = 0;
     while (j < UNLOCKER_ROWS) {
@@ -184,10 +184,11 @@ void unlocker(uint8_t* secret_sequence)
 {
   resetRings();
 
-  int i = 0, j = 0;
-  int last_x = 0, last_y = 0;
-  int last_i = 0, last_j = 0;
-  int unlock_cnt = 0;
+  uint8_t i, j;
+  uint8_t last_x = 0, last_y = 0;
+  uint8_t last_i = 0, last_j = 0;
+  uint8_t unlock_cnt = 0;
+
   while (TRUE) {
     ginputGetMouseStatus(0, &ev);
 
@@ -225,7 +226,6 @@ void unlocker(uint8_t* secret_sequence)
 
     // Button still down
     i = 0;
-    j = 0;
     while (i < UNLOCKER_COLS) {
       j = 0;
       while (j < UNLOCKER_ROWS) {

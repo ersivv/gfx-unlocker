@@ -55,7 +55,7 @@ int main(void)
    * predefined in code or loaded from some kind of external memory.
    * Following sequence of calls is just an example.
    */
-  uint8_t secret_sequence[UNLOCKER_ROWS * UNLOCKER_COLS];
+  uint8_t secret_sequence[UNLOCKER_COLS * UNLOCKER_ROWS];
   displayUnlockerSetup(&secret_sequence[0]);
 
   /*

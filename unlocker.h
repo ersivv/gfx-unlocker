@@ -29,13 +29,17 @@
 #ifndef _UNLOCKER_H_
 #define _UNLOCKER_H_
 
+/* Number of columns and rows displayed.*/
 #define UNLOCKER_COLS 3
 #define UNLOCKER_ROWS 3
 
-#define BACKGROUND_COLOR     White
-
+/* Outer size of a ring.*/
 #define RING_DIAMETER        40
-#define RING_ACTIVE_AREA     26
+/* Width of touch-active rectangle.*/
+#define RING_ACTIVE_AREA     28
+
+/* Colors.*/
+#define BACKGROUND_COLOR     White
 
 #define RING_OUTER_COLOR     Black
 #define RING_INNER_COLOR     Black
@@ -51,13 +55,14 @@
 
 #define LINE_COLOR           Gray
 
+/* Delay introduced to display comparison result - fail or success.*/
 #define RESULT_DELAY_MS 1200
 
 struct unlocker_rings_t {
   coord_t x;
   coord_t y;
-  int checked;
-  int has_prev;
+  uint8_t checked;
+  uint8_t has_prev;
   coord_t prev_x;
   coord_t prev_y;
 };
