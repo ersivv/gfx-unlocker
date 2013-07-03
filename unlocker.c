@@ -64,7 +64,9 @@ inline void drawRingOk(coord_t x, coord_t y)
   gdispFillCircle(x, y,                     3, RING_INNER_OK_COLOR);
 }
 
-
+/*
+ * Redraws lines after each ring is checked.
+ */
 void redrawLines(void)
 {
   uint8_t i, j;
@@ -187,7 +189,10 @@ void resetRings(void)
   }
 }
 
-void unlocker(uint8_t* secret_sequence, uint8_t store_sequence)
+/*
+ * Main unlocker function.
+ */
+void unlocker(uint8_t* secret_sequence, uint8_t save_sequence)
 {
   resetRings();
 
@@ -199,12 +204,13 @@ void unlocker(uint8_t* secret_sequence, uint8_t store_sequence)
   while (TRUE) {
     ginputGetMouseStatus(0, &ev);
 
-    // If button (touch) is up
+    /* If button (touch) is up.*/
     if (!(ev.current_buttons & GINPUT_MOUSE_BTN_LEFT)) {
       if (last_x != 0 && last_y != 0) {
 
+        /* If we run in setup mode, save sequence and exit.*/
         i = 0;
-        if (store_sequence) {
+        if (save_sequence) {
           while (i < UNLOCKER_COLS * UNLOCKER_ROWS) {
             secret_sequence[i] = unlock_sequence[i];
             i++;
@@ -214,6 +220,7 @@ void unlocker(uint8_t* secret_sequence, uint8_t store_sequence)
           break;
         }
 
+        /* Sequence comparison: just drawn with secret one.*/
         i = 0;
         while (i < UNLOCKER_COLS * UNLOCKER_ROWS) {
           if (secret_sequence[i] != unlock_sequence[i]) {
@@ -222,6 +229,7 @@ void unlocker(uint8_t* secret_sequence, uint8_t store_sequence)
           i++;
         }
 
+        /* If they don't match.*/
         if (i != UNLOCKER_COLS * UNLOCKER_ROWS) {
           drawRingsError();
           gfxSleepMilliseconds(RESULT_DELAY_MS);
@@ -242,7 +250,7 @@ void unlocker(uint8_t* secret_sequence, uint8_t store_sequence)
       }
     }
 
-    // Button still down
+    /* Button still down.*/
     i = 0;
     while (i < UNLOCKER_COLS) {
       j = 0;
@@ -278,11 +286,17 @@ void unlocker(uint8_t* secret_sequence, uint8_t store_sequence)
   return;
 }
 
+/*
+ * Displays unlocker that saves drawn pattern for further comparison.
+ */
 void displayUnlockerSetup(uint8_t* secret_sequence)
 {
   unlocker(secret_sequence, 1);
 }
 
+/*
+ * Just displays unlocker.
+ */
 void displayUnlocker(uint8_t* secret_sequence)
 {
   unlocker(secret_sequence, 0);
