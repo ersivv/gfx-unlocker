@@ -207,7 +207,11 @@ void unlocker(uint8_t* secret_sequence, uint8_t store_sequence)
         if (store_sequence) {
           while (i < UNLOCKER_COLS * UNLOCKER_ROWS) {
             secret_sequence[i] = unlock_sequence[i];
+            i++;
           }
+          drawRingsOk();
+          gfxSleepMilliseconds(RESULT_DELAY_MS);
+          break;
         }
 
         i = 0;
@@ -276,8 +280,7 @@ void unlocker(uint8_t* secret_sequence, uint8_t store_sequence)
 
 void displayUnlockerSetup(uint8_t* secret_sequence)
 {
-  (void*)secret_sequence;
-  //unlocker(secret_sequence, 1);
+  unlocker(secret_sequence, 1);
 }
 
 void displayUnlocker(uint8_t* secret_sequence)

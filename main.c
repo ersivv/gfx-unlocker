@@ -34,6 +34,8 @@
 
 static WORKING_AREA(waThread1, 128);
 static msg_t Thread1(void *arg) {
+  (void)arg;
+
   uint8_t s = 0;
   coord_t center_x = gdispGetWidth() / 2;
   coord_t center_y = gdispGetHeight() / 2;
@@ -48,6 +50,8 @@ static msg_t Thread1(void *arg) {
     }
     chThdSleepMilliseconds(500);
   }
+
+  return (msg_t)0;
 }
 
 int main(void)
@@ -64,8 +68,6 @@ int main(void)
   /* Initialize mouse and calibrate it if needed.*/
   ginputGetMouse(0);
 
-  gdispSetOrientation(GDISP_ROTATE_90);
-
   /*
    * This programs new pattern.
    * Usually you run it inside "protected zone"; after the call
@@ -73,15 +75,16 @@ int main(void)
    * predefined in code or loaded from some kind of external memory.
    * Following sequence of calls is just an example.
    */
-  uint8_t secret_sequence[UNLOCKER_COLS * UNLOCKER_ROWS] = {1,4,8,6,2,5,7,0,0};
-  displayUnlockerSetup(&secret_sequence[0]);
+  uint8_t secret_sequence[UNLOCKER_COLS * UNLOCKER_ROWS];
+  displayUnlockerSetup(secret_sequence);
 
   /*
    * Unlocker exits only if user draws proper pattern.
    * This should be run before anything else happens.
    * Consider use of chSysLock() before and chSysUnlock() after.
    */
-  displayUnlocker(&secret_sequence[0]);
+  //uint8_t secret_sequence[UNLOCKER_COLS * UNLOCKER_ROWS] = {1,4,8,6,2,5,7,0,0};
+  displayUnlocker(secret_sequence);
 
   /* Continue with normal work.*/
   gdispClear(Black);
