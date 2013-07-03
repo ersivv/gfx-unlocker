@@ -33,6 +33,7 @@
 #include "unlocker.h"
 
 GEventMouse ev;
+
 struct unlocker_rings_t unlocker_rings[UNLOCKER_COLS][UNLOCKER_ROWS];
 uint8_t unlock_sequence[UNLOCKER_COLS * UNLOCKER_ROWS];
 
@@ -62,6 +63,7 @@ inline void drawRingOk(coord_t x, coord_t y)
   gdispFillCircle(x, y, RING_DIAMETER / 2 - 3, BACKGROUND_COLOR);
   gdispFillCircle(x, y,                     3, RING_INNER_OK_COLOR);
 }
+
 
 void redrawLines(void)
 {
@@ -138,6 +140,11 @@ void drawRingsOk(void)
   }
 }
 
+/*
+ * resetRings() redraws rings and resets unlocker_rings structure.
+ * Position of each ring is calculated with respect to width and height
+ * of the screen.
+ */
 void resetRings(void)
 {
   /* Calculating positions & drawing points.*/
@@ -180,7 +187,7 @@ void resetRings(void)
   }
 }
 
-void unlocker(uint8_t* secret_sequence)
+void unlocker(uint8_t* secret_sequence, uint8_t store_sequence)
 {
   resetRings();
 
@@ -195,6 +202,13 @@ void unlocker(uint8_t* secret_sequence)
     // If button (touch) is up
     if (!(ev.current_buttons & GINPUT_MOUSE_BTN_LEFT)) {
       if (last_x != 0 && last_y != 0) {
+
+        i = 0;
+        if (store_sequence) {
+          while (i < UNLOCKER_COLS * UNLOCKER_ROWS) {
+            secret_sequence[i] = unlock_sequence[i];
+          }
+        }
 
         i = 0;
         while (i < UNLOCKER_COLS * UNLOCKER_ROWS) {
@@ -230,10 +244,10 @@ void unlocker(uint8_t* secret_sequence)
       j = 0;
       while (j < UNLOCKER_ROWS) {
         if (unlocker_rings[i][j].checked == 0
-          && unlocker_rings[i][j].x - RING_ACTIVE_AREA/2 < ev.x
-          && unlocker_rings[i][j].x + RING_ACTIVE_AREA/2 > ev.x
-          && unlocker_rings[i][j].y - RING_ACTIVE_AREA/2 < ev.y
-          && unlocker_rings[i][j].y + RING_ACTIVE_AREA/2 > ev.y)
+          && unlocker_rings[i][j].x - RING_ACTIVE_AREA / 2 < ev.x
+          && unlocker_rings[i][j].x + RING_ACTIVE_AREA / 2 > ev.x
+          && unlocker_rings[i][j].y - RING_ACTIVE_AREA / 2 < ev.y
+          && unlocker_rings[i][j].y + RING_ACTIVE_AREA / 2 > ev.y)
         {
           unlocker_rings[i][j].checked = 1;
 
@@ -263,9 +277,10 @@ void unlocker(uint8_t* secret_sequence)
 void displayUnlockerSetup(uint8_t* secret_sequence)
 {
   (void*)secret_sequence;
+  //unlocker(secret_sequence, 1);
 }
 
 void displayUnlocker(uint8_t* secret_sequence)
 {
-  unlocker(secret_sequence);
+  unlocker(secret_sequence, 0);
 }
