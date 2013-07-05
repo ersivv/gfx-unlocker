@@ -197,7 +197,7 @@ void unlocker(uint8_t* secret_sequence, uint8_t save_sequence)
   resetRings();
 
   uint8_t i, j;
-  uint8_t last_x = 0, last_y = 0;
+  coord_t last_x = 0, last_y = 0;
   uint8_t last_i = 0, last_j = 0;
   uint8_t unlock_cnt = 0;
 
