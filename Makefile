@@ -72,7 +72,7 @@ include $(CHIBIOS)/os/ports/GCC/ARMCMx/STM32F4xx/port.mk
 include $(CHIBIOS)/os/kernel/kernel.mk
 include $(CHIBIOS)/test/test.mk
 
-GFXLIB = $(CHIBIOS)/ext/gfx
+GFXLIB = ../ugfx
 include $(GFXLIB)/gfx.mk
 include $(GFXLIB)/drivers/gdisp/SSD2119/gdisp_lld.mk
 include $(GFXLIB)/drivers/ginput/touch/STMPE811/ginput_lld.mk

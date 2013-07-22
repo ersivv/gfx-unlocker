@@ -3,9 +3,11 @@ GFX-unlocker
 
 Simple screen unlocker known from Android smartphones.
 
-Written for ChibiOS/RT and ChibiOS/GFX. Provided example was tested with Embest
-DM-STF4BB board and DM-LCD35RT LCD display but should work on any supported
-hardware.
+Written for µGFX (http://ugfx.org) framework running on ChibiOS/RT RTOS
+(http://chibios.org). Provided example was tested with Embest DM-STF4BB board
+and DM-LCD35RT LCD display but should work on any supported hardware. Along with
+project source files there are two board files for Embest board included:
+gdisp_lld_board.h and gdisp_lld_mouse_board.h.
 
 Unlocker (displayUnlocker function) is intended to start before any other real
 action happens. Demo uses thread-based delays (gfxSleepMilliseconds), so make

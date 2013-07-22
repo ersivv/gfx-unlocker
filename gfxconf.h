@@ -80,11 +80,15 @@
 #define TDISP_NEED_MULTITHREAD	FALSE
 
 /* Features for the GWIN subsystem. */
-#define GWIN_NEED_BUTTON		FALSE
+#define GWIN_NEED_WINDOWMANAGER	FALSE
 #define GWIN_NEED_CONSOLE		FALSE
 #define GWIN_NEED_GRAPH			FALSE
+#define GWIN_NEED_WIDGET		FALSE
+#define GWIN_NEED_BUTTON		FALSE
 #define GWIN_NEED_SLIDER		FALSE
 #define GWIN_NEED_CHECKBOX		FALSE
+#define GWIN_NEED_IMAGE			FALSE
+#define GWIN_NEED_RADIO			FALSE
 
 /* Features for the GEVENT subsystem. */
 #define GEVENT_ASSERT_NO_RESOURCE	FALSE
@@ -127,6 +131,7 @@
 	#define GWIN_BUTTON_LAZY_RELEASE		FALSE
 	#define GWIN_CONSOLE_USE_BASESTREAM		FALSE
 	#define GWIN_CONSOLE_USE_FLOAT			FALSE
+	#define GWIN_NEED_IMAGE_ANIMATION		FALSE
 */
 
 /* Optional Low Level Driver Definitions */
@@ -138,9 +143,6 @@
 	#define GDISP_USE_GPIO
 	#define TDISP_COLUMNS				16
 	#define TDISP_ROWS					2
-	#define GDISP_THREAD_CHIBIOS		TRUE
 */
-
-#define BOARD_EMBEST_DMSTF4BB
 
 #endif /* _GFXCONF_H */
